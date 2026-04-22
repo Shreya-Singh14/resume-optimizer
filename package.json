@@ -2,9 +2,10 @@
   "name": "resume_optimiser",
   "version": "1.0.0",
   "description": "This project optimizes resumes based on job descriptions and calculates ATS score.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -25,8 +26,9 @@
     "express": "^5.2.1",
     "mongoose": "^9.4.1",
     "multer": "^2.1.1",
+    "nodemon": "^3.1.14",
     "openai": "^6.34.0",
-    "pdf-parse": "^2.4.5",
+    "pdf-parse": "^1.1.1",
     "winston": "^3.19.0"
   }
 }

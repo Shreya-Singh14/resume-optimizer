@@ -20,32 +20,31 @@ ${jobDescription}
 `;
 
   try {
-const response = await axios.post(
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${process.env.GEMINI_API_KEY}`,
-  {
-    contents: [
+    await axios.post(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
-        parts: [{ text: prompt }]
-      }
-    ]
-  }
-);
+        contents: [
+          {
+            parts: [{ text: prompt }],
+          },
+        ],
+      },
+    );
 
     const text = response.data.candidates[0].content.parts[0].text;
 
-    // Extract JSON safely
-    const cleaned = text.replace(/```json|```/g, "").trim();
+    // clean markdown if present
+    let cleaned = text.trim();
+    if (cleaned.startsWith("```")) {
+      cleaned = cleaned.replace(/```json|```/g, "").trim();
+    }
 
     return JSON.parse(cleaned);
   } catch (error) {
     console.error("Gemini error:", error.response?.data || error.message);
 
-    return {
-      score: 0,
-      matchedSkills: [],
-      missingSkills: [],
-      suggestions: ["AI analysis failed"],
-    };
+    // 🔥 IMPORTANT: throw error instead of returning fallback
+    throw new Error("Gemini failed");
   }
 }
 
